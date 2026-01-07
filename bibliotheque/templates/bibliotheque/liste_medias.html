@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des médias - Médiathèque</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .nav-links a {
+            margin-right: 15px;
+            padding: 10px 20px;
+            background: #4a90e2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: #357ae8;
+            transform: translateY(-2px);
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-icon {
+            font-size: 1.5em;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #4a90e2;
+            background: white;
+            color: #4a90e2;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .medias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .media-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e1e8ed;
+        }
+
+        .media-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .media-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .media-type {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .type-livre { background: #e3f2fd; color: #1565c0; }
+        .type-dvd { background: #f3e5f5; color: #7b1fa2; }
+        .type-cd { background: #e8f5e9; color: #2e7d32; }
+        .type-jeu { background: #fff3e0; color: #ef6c00; }
+
+        .media-title {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .media-author {
+            color: #7f8c8d;
+            font-size: 0.95em;
+            margin-bottom: 5px;
+        }
+
+        .media-year {
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+
+        .media-body {
+            padding: 20px;
+        }
+
+        .media-details {
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .detail-value {
+            color: #333;
+        }
+
+        .media-status {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-available {
+            color: #27ae60;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-unavailable {
+            color: #e74c3c;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-emprunt {
+            padding: 8px 16px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-emprunt:hover:not(:disabled) {
+            background: #219653;
+        }
+
+        .btn-emprunt:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .no-media {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .no-media h3 {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .page-btn {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover {
+            background: #4a90e2;
+            color: white;
+            border-color: #4a90e2;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .medias-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Catalogue des médias</h1>
+            <p class="subtitle">Découvrez tous les médias disponibles dans notre médiathèque</p>
+        </header>
+
+        <div class="nav-bar">
+            <div class="nav-links">
+                <a href="{% url 'accueil' %}">← Retour à l'accueil</a>
+                {% if user.is_staff %}
+                <a href="/admin/bibliotheque/media/add/" style="background: #2ecc71;">➕ Ajouter un média</a>
+                {% endif %}
+            </div>
+
+            <div style="color: #7f8c8d;">
+                {% if user.is_authenticated %}
+                Connecté en tant que <strong>{{ user.username }}</strong>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <span class="stat-icon">📊</span>
+                <span>Total : <strong>{{ medias|length }}</strong> média(s)</span>
+            </div>
+            <div class="stat">
+                <span class="stat-icon">✅</span>
+                <span>Disponibles : <strong>{{ medias_disponibles|default:"0" }}</strong></span>
+            </div>
+            <div class="stat">
+                <span class="stat-icon">🎯</span>
+                <span>Types : Livres, DVDs, CDs, Jeux</span>
+            </div>
+        </div>
+
+        <div class="medias-grid">
+            {% for media in medias %}
+            <div class="media-card" data-type="{{ media.type_media }}">
+                <div class="media-header">
+                    <span class="media-type type-{{ media.type_media|lower }}">
+                        {% if media.type_media == 'LIVRE' %}📚 Livre
+                        {% elif media.type_media == 'DVD' %}🎬 DVD
+                        {% elif media.type_media == 'CD' %}🎵 CD
+                        {% else %}🎲 Jeu
+                        {% endif %}
+                    </span>
+                    <h3 class="media-title">{{ media.titre }}</h3>
+                    <p class="media-author">Par {{ media.auteur }}</p>
+                    <p class="media-year">Année : {{ media.annee }}</p>
+                </div>
+
+                <div class="media-body">
+                    <div class="media-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Auteur/Artiste :</span>
+                            <span class="detail-value">{{ media.auteur }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Type :</span>
+                            <span class="detail-value">{{ media.get_type_media_display }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Année :</span>
+                            <span class="detail-value">{{ media.annee }}</span>
+                        </div>
+
+                        {% if media.type_media == 'LIVRE' and media.livre %}
+                        <div class="detail-item">
+                            <span class="detail-label">ISBN :</span>
+                            <span class="detail-value">{{ media.livre.isbn|default:"Non renseigné" }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Pages :</span>
+                            <span class="detail-value">{{ media.livre.pages|default:"-" }}</span>
+                        </div>
+                        {% endif %}
+
+                        {% if media.type_media == 'DVD' and media.dvd %}
+                        <div class="detail-item">
+                            <span class="detail-label">Réalisateur :</span>
+                            <span class="detail-value">{{ media.dvd.realisateur }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Durée :</span>
+                            <span class="detail-value">{{ media.dvd.duree|default:"-" }} min</span>
+                        </div>
+                        {% endif %}
+
+                        {% if media.type_media == 'CD' and media.cd %}
+                        <div class="detail-item">
+                            <span class="detail-label">Artiste :</span>
+                            <span class="detail-value">{{ media.cd.artiste }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Pistes :</span>
+                            <span class="detail-value">{{ media.cd.pistes|default:"-" }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="media-status">
+                    <div>
+                        {% if media.disponible %}
+                        <span class="status-available">✅ Disponible à l'emprunt</span>
+                        {% else %}
+                        <span class="status-unavailable">❌ Actuellement emprunté</span>
+                        {% endif %}
+                    </div>
+
+                    {% if user.is_staff %}
+                    <div class="admin-actions">
+                        <a href="/admin/bibliotheque/media/{{ media.id }}/change/" style="padding: 8px 16px; background: #f39c12; color: white; text-decoration: none; border-radius: 5px;">✏️</a>
+                        <a href="/admin/bibliotheque/media/{{ media.id }}/delete/" style="padding: 8px 16px; background: #e74c3c; color: white; text-decoration: none; border-radius: 5px;">🗑️</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-media">
+                <h3>📭 Aucun média disponible pour le moment</h3>
+                <p>La médiathèque n'a pas encore ajouté de médias à son catalogue.</p>
+                {% if user.is_staff %}
+                <a href="/admin/bibliotheque/media/add/" style="display: inline-block; margin-top: 15px; padding: 12px 25px; background: #4a90e2; color: white; text-decoration: none; border-radius: 5px;">➕ Ajouter le premier média</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <footer>
+            <p>Médiathèque "Notre livre, notre média" - © {% now "Y" %}</p>
+            <p>Pour toute question : mediatheque@example.com | 📞 05 61 23 45 67</p>
+        </footer>
+    </div>
+
+    <script>
+        // Filtrage simple par type
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const mediaCards = document.querySelectorAll('.media-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filterType = this.getAttribute('data-filter');
+
+                    // Active/désactive le bouton
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Filtre les cartes
+                    mediaCards.forEach(card => {
+                        if (filterType === 'all' || card.getAttribute('data-type') === filterType) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

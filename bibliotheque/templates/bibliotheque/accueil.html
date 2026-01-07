@@ -1,0 +1,414 @@
+<!DOC<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Médiathèque - Accueil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* USER BAR */
+        .user-bar {
+            background: #f8f9fa;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .welcome {
+            font-weight: 500;
+        }
+
+        .welcome strong {
+            color: #4a90e2;
+        }
+
+        /* NAVIGATION */
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+            padding: 20px 40px;
+            background: #f1f8ff;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            background: #4a90e2;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: #357ae8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn.admin {
+            background: #e74c3c;
+        }
+
+        .nav-btn.admin:hover {
+            background: #c0392b;
+        }
+
+        .nav-btn.logout {
+            background: #95a5a6;
+        }
+
+        .nav-btn.logout:hover {
+            background: #7f8c8d;
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px 40px;
+            background: white;
+        }
+
+        .stat-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #4a90e2;
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .stat-number {
+            font-size: 2.8em;
+            font-weight: bold;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 1em;
+        }
+
+        /* SERVICES */
+        .services {
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .services h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2c3e50;
+            font-size: 2em;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .service-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .service-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #4a90e2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .service-btn:hover {
+            background: #357ae8;
+            transform: translateY(-2px);
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h4 {
+            color: #4a90e2;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            opacity: 0.7;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+            }
+
+            .user-bar {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>📚 Médiathèque "Notre livre, notre média"</h1>
+            <p>Votre porte d'entrée vers la culture et le savoir</p>
+        </div>
+
+        <!-- USER INFO -->
+        <div class="user-bar">
+            <div class="welcome">
+                {% if user.is_authenticated %}
+                👋 Bienvenue, <strong>{{ user.username }}</strong> !
+                {% if user.is_staff %}(Bibliothécaire){% endif %}
+                {% else %}
+                👋 Bienvenue visiteur !
+                {% endif %}
+            </div>
+
+            <div>
+                {% if user.is_authenticated %}
+                <a href="/admin/logout/" class="nav-btn logout">🚪 Déconnexion</a>
+                {% else %}
+                <a href="/admin/login/" class="nav-btn">🔑 Connexion staff</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- NAVIGATION -->
+        <div class="nav-menu">
+            <a href="{% url 'liste_medias' %}" class="nav-btn">
+                📋 Catalogue des médias
+            </a>
+
+            {% if user.is_staff %}
+            <a href="{% url 'liste_membres' %}" class="nav-btn">
+                👥 Gestion des membres
+            </a>
+
+            <a href="/admin/" class="nav-btn admin">
+                ⚙️ Administration complète
+            </a>
+            {% endif %}
+        </div>
+
+        <!-- STATISTIQUES -->
+        <div class="stats">
+            <div class="stat-card">
+                <span class="stat-icon">📚</span>
+                <span class="stat-number">{{ total_medias|default:"0" }}</span>
+                <span class="stat-label">Médias disponibles</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-icon">👥</span>
+                <span class="stat-number">{{ total_membres|default:"0" }}</span>
+                <span class="stat-label">Membres inscrits</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-icon">✅</span>
+                <span class="stat-number">{{ medias_disponibles|default:"0" }}</span>
+                <span class="stat-label">Disponibles maintenant</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-icon">📅</span>
+                <span class="stat-number">{{ emprunts_actifs|default:"0" }}</span>
+                <span class="stat-label">Emprunts en cours</span>
+            </div>
+        </div>
+
+        <!-- SERVICES -->
+        <div class="services">
+            <h2>🎯 Nos services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">📖</span>
+                    <h3>Pour les lecteurs</h3>
+                    <p>Explorez notre vaste collection de livres, DVDs, CDs et jeux. Réservez en ligne et venez récupérer vos médias préférés.</p>
+                    <a href="{% url 'liste_medias' %}" class="service-btn">Explorer le catalogue →</a>
+                </div>
+
+                <div class="service-card">
+                    <span class="service-icon">🎓</span>
+                    <h3>Espace étudiant</h3>
+                    <p>Zone de travail calme, accès à des ressources académiques, aides aux devoirs et ateliers de lecture.</p>
+                    <a href="#" class="service-btn">Découvrir l'espace →</a>
+                </div>
+
+                <div class="service-card">
+                    <span class="service-icon">👨‍👩‍👧‍👦</span>
+                    <h3>Activités familiales</h3>
+                    <p>Heures du conte, ateliers créatifs, jeux éducatifs. Des activités pour tous les âges toute l'année.</p>
+                    <a href="#" class="service-btn">Voir le programme →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>📍 Où nous trouver</h4>
+                    <p><strong>Adresse :</strong><br>
+                    123 Rue de la Culture<br>
+                    31000 Toulouse</p>
+
+                    <p><strong>Métro :</strong> Capitole (ligne A)</p>
+                    <p><strong>Bus :</strong> Lignes 14, 44, 78</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>⏰ Horaires</h4>
+                    <p><strong>Lundi - Vendredi :</strong><br>
+                    9h00 - 18h00</p>
+
+                    <p><strong>Samedi :</strong><br>
+                    9h00 - 13h00</p>
+
+                    <p><strong>Dimanche :</strong><br>
+                    Fermé</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>📞 Contact</h4>
+                    <p><strong>Téléphone :</strong><br>
+                    05 61 23 45 67</p>
+
+                    <p><strong>Email :</strong><br>
+                    contact@mediatheque-toulouse.fr</p>
+
+                    <p><strong>Équipe :</strong><br>
+                    5 bibliothécaires à votre service</p>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>Médiathèque "Notre livre, notre média" - © {% now "Y" %}</p>
+                <p style="margin-top: 5px; font-size: 0.8em;">Site développé avec Django - Projet éducatif</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
